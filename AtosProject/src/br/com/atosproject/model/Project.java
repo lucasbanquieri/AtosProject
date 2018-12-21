@@ -1,15 +1,22 @@
 package br.com.atosproject.model;
 
-import java.math.BigDecimal;
-
 public class Project {
+	
+	private long projectId;
 	private String name;
 	private String customer;
-	private BigDecimal valueOfProject;
+	private String valueOfProject;
 	private String dtBegin;
 	private String dtEnd;
+	private Funcionario funcionario;
 	
 	
+	public long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -22,10 +29,10 @@ public class Project {
 	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
-	public BigDecimal getValueOfProject() {
+	public String getValueOfProject() {
 		return valueOfProject;
 	}
-	public void setValueOfProject(BigDecimal valueOfProject) {
+	public void setValueOfProject(String valueOfProject) {
 		this.valueOfProject = valueOfProject;
 	}
 	public String getDtBegin() {
@@ -39,5 +46,11 @@ public class Project {
 	}
 	public void setDtEnd(String dtEnd) {
 		this.dtEnd = dtEnd;
+	}
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 }

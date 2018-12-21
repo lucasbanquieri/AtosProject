@@ -1,17 +1,27 @@
 package br.com.atosproject.model;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Funcionario {
+	
+	private long idFuncionario;
 	private String name;
 	private String role;
-	private BigDecimal salary;
+	private String salary;
 	private String manager;
 	private String gcm;
 	private String[] skills;
 	private String[] certification;
+	private List<Project> projectList = new ArrayList<Project>();
 	
 	
+	public long getIdFuncionario() {
+		return idFuncionario;
+	}
+	public void setIdFuncionario(long idFuncionario) {
+		this.idFuncionario = idFuncionario;
+	}
 	public String getName() {
 		return name;
 	}
@@ -24,10 +34,10 @@ public class Funcionario {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public BigDecimal getSalary() {
+	public String getSalary() {
 		return salary;
 	}
-	public void setSalary(BigDecimal salary) {
+	public void setSalary(String salary) {
 		this.salary = salary;
 	}
 	public String getManager() {
@@ -53,5 +63,11 @@ public class Funcionario {
 	}
 	public void setCertification(String[] certification) {
 		this.certification = certification;
+	}
+	public List<Project> getProjectList() {
+		return projectList;
+	}
+	public void setProjectList(List<Project> projectList) {
+		this.projectList = projectList;
 	}
 }
