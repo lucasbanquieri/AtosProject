@@ -18,24 +18,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.atosproject.model.Funcionario;
 import br.com.atosproject.model.Project;
 
+/**
+ * Classe controladora Spring que recebe requisicoes web retornando JSPs. 
+ * 
+ * @author Lucas Banquieri
+ * 
+ */
+
 @Controller
 public class ControllerFuncionario {
 	
+	/**
+	 * Metodo responsavel pela pagina principal(index). Faz a leitura de um arquivo JSON contendo dados de funcionarios.
+	 * Monta uma lista de Funcionarios com seus respectivos dados e projetos(Project).
+	 * Retorna uma pagina JSP, passando como Model uma lista de funcionarios.
+	 * Local do arquivo JSON pode ser alterado na linha 51.
+	 * 
+	 * @param funcionario Objeto do tipo Funcionario,
+	 * @param pro Objeto do tipo Projeto.
+	 * @param model Objeto do tipo Model.
+	 * @return index.jsp
+	 */
+	
 	@RequestMapping("/index")
-	public String index(Model model, String[] filters) {
+	public String index(Funcionario funcionario, Project pro, Model model) {
 		
 		JSONArray jObject;
 		JSONParser jParser = new JSONParser();
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 		
 		try {
-			
 			jObject = (JSONArray) jParser.parse(new FileReader("D:\\employees.json"));
 			
 			for (int i = 0; i < jObject.size(); i++) {
 				JSONObject jFuncionario = (JSONObject) jObject.get(i);
 				
-				Funcionario funcionario = new Funcionario();
+				funcionario = new Funcionario();
 				
 				funcionario.setIdFuncionario(i);
 				funcionario.setName(jFuncionario.get("name").toString());
@@ -50,7 +68,7 @@ public class ControllerFuncionario {
 					
 					for (int j = 0; j < projectArray.size(); j++) {
 						JSONObject projects = (JSONObject) projectArray.get(j);
-						Project pro = new Project();
+						pro = new Project();
 						
 						pro.setName(projects.get("name").toString());
 						pro.setCustomer(projects.get("customer").toString());
@@ -74,22 +92,6 @@ public class ControllerFuncionario {
 						}
 						funcionario.setSkills(skills);
 					}
-					//TEMPORARIO
-					if (filters != null) {
-						boolean contains = false;
-						for (int l = 0; l < filters.length; l++) {
-							if (!contains) {
-								for (int m = 0; m < skills.length; m++) {
-									if (filters[l].equals(skills[m])) {
-										contains = true;
-										break;
-									}
-								}
-							} else {
-								break;
-							}
-						}
-					}
 				}
 				
 				if (jFuncionario.get("certification") != null) {
@@ -110,12 +112,16 @@ public class ControllerFuncionario {
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return "errorPages/fileNotFoundError";
 		} catch (IOException e) {
 			e.printStackTrace();
+			return "errorPages/fileNotFoundError";
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return "errorPages/parseError";
 		}
 		model.addAttribute("funcionarios", funcionarios);
+		
 		return "index";
 	}
 }

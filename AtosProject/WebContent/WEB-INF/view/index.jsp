@@ -2,42 +2,45 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Atos Project</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	</head>
-	<body>
+	<body style="background-color: #DCDCDC">
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<!-- Filtrar por skill:
-		<input type="checkbox" name="" value="Java">Java
-		<input type="checkbox" name="" value="JavaEE">JavaEE
-		<input type="checkbox" name="" value="Microservice">Microservice
-		<input type="checkbox" name="" value="Rest">Rest
-		<input type="checkbox" name="" value="SOA">SOA
-		<input type="checkbox" name="" value="Oracle Soa Suite">Oracle Soa Suite
-		<input type="checkbox" name="" value="Graphql">Graphql
-		<input type="checkbox" name="" value="DevOps">DevOps
-		<input type="checkbox" name="" value="Gestão de pessoas">Gestão de pessoas
-		<input type="checkbox" name="" value="PMI">PMI
-		<input type="checkbox" name="" value="Scrum">Scrum
-		<input type="checkbox" name="" value="Agile">Agile<br>
-		<button type="submit" id="filtro">Filtrar</button><br>
-		<br> -->
-		<table id="tableFunc" border="1">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>	
+	<div>
+		<div class="page-header" align="center">
+			<h1>Funcionários Atos</h1>
+		</div>
+		<br>
+		<table align="center">
+			<tbody>
+				<tr id="filter_col5" data-column="5">
+	                <td align="center">Skill Search: &nbsp</td>
+	                <td align="center"><input type="text" class="skill_filter" id="skill5_filter"></td>
+	                <td align="center"><input type="checkbox" class="skill_filter" id="skill5_regex" checked="checked" hidden></td>
+	                <td align="center"><input type="checkbox" class="skill_filter" id="skill5_smart" hidden></td>
+            	</tr>
+			</tbody>
+		</table>
+		<br>
+		<table id="tableFunc" class="table table-hover">
 			<thead>
-				<th colspan="8" align="center">Funcionários Atos</th>
 				<tr>
-					<th>Name</th>
-					<th>Role</th>
-					<th>Salary</th>
-					<th>Manager</th>
-					<th>Gcm</th>
-					<th align="center">Skills</th>
-					<th align="center">Certifications</th>
-					<th align="center">Projects</th>
+					<th scope="col">Name</th>
+					<th scope="col">Role</th>
+					<th scope="col">Salary(R$)</th>
+					<th scope="col">Manager</th>
+					<th scope="col">Gcm</th>
+					<th scope="col" style="text-align: center">Skills</th>
+					<th scope="col" style="text-align: center">Certifications</th>
+					<th scope="col" style="text-align: center">Projects</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -62,28 +65,40 @@
 						<c:forEach var="projects" items="${funcionario.projectList}">
 							Name: <c:out value="${projects.name}"></c:out> <br>
 							Customer: <c:out value="${projects.customer}"></c:out> <br>
-							Value of Project: <c:out value="${projects.valueOfProject}"></c:out> <br>
+							Value of Project: R$ <c:out value="${projects.valueOfProject}"></c:out> <br>
 							Start Date: <c:out value="${projects.dtBegin}"></c:out> <br>
-							End Date: <c:out value="${projects.dtEnd}"></c:out> <br>
+							End Date: <c:out value="${projects.dtEnd}"></c:out>
 						</c:forEach>
 					</td>
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>
+		</div>
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-		<script>
-			/*$("#filtro").on("click", function(){
-				$.post("index?filtros=" + $("#filtro").val(), function(resposta) {
-					$("#alunos").html(resposta);
-				})
-			})*/
+		<script>			
+			function filterColumn (i) {
+			    $('#tableFunc').DataTable().column(i).search(
+			        $('#skill'+i+'_filter').val(),
+			        $('#skill'+i+'_regex').prop('checked'),
+			        $('#skill'+i+'_smart').prop('checked')
+			    ).draw();
+			}
 			
 			$(document).ready(function(){
+				$('input.skill_filter').on( 'keyup click', function () {
+					filterColumn( $(this).parents('tr').attr('data-column') );
+			    } );
+				
 				$("#tableFunc").dataTable({
+					"search": {
+						"regex": true,
+						"smart": false
+					},
 					"paging": false,
-					"info": false
+					"info": false,
+					"dom": ''
 				});
 			})
 		</script>

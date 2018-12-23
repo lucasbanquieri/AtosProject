@@ -1,5 +1,12 @@
 package br.com.atosproject.model;
 
+/**
+ * Classe que representa os projetos de um funcionario.
+ * 
+ * @author Lucas Banquieri
+ *
+ */
+
 public class Project {
 	
 	private long projectId;

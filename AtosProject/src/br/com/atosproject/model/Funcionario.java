@@ -3,6 +3,13 @@ package br.com.atosproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que representa o funcionario.
+ * 
+ * @author Lucas Banquieri
+ *
+ */
+
 public class Funcionario {
 	
 	private long idFuncionario;
