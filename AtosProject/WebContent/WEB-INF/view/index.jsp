@@ -23,7 +23,7 @@
 			<tbody>
 				<tr id="filter_col5" data-column="5">
 	                <td align="center">Skill Search: &nbsp</td>
-	                <td align="center"><input type="text" class="skill_filter" id="skill5_filter"></td>
+	                <td align="center"><input style="border-radius: 5px" type="text" class="skill_filter" id="skill5_filter"></td>
 	                <td align="center"><input type="checkbox" class="skill_filter" id="skill5_regex" checked="checked" hidden></td>
 	                <td align="center"><input type="checkbox" class="skill_filter" id="skill5_smart" hidden></td>
             	</tr>

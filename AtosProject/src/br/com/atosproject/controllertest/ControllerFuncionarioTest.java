@@ -28,12 +28,6 @@ public class ControllerFuncionarioTest {
 	
     @Mock
     private Model model;
-    
-    @Mock
-    Funcionario funcionario = new Funcionario();
-    
-    @Mock
-    Project project = new Project();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -46,7 +40,7 @@ public class ControllerFuncionarioTest {
 	
 	@Test
 	public void testIndexJsonRequest() {
-		String retorno = controllerFuncionario.index(funcionario, project, model);
+		String retorno = controllerFuncionario.index(model);
         assertEquals("index", retorno);
 	}
 	
