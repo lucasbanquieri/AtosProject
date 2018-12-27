@@ -1,5 +1,6 @@
 package br.com.atosproject.dao;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,8 +40,7 @@ public class FuncionarioDAOJson implements FuncionarioDAOJsonInterface{
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 		
 		try {
-			// ABRE O ARQUIVO JSON.
-			// LOCAL PODE SER ALTERADO.
+			// FAZ A LEITURA DO ARQUIVO JSON.
 			jObject = (JSONArray) jParser.parse(new FileReader("D:\\employees.json"));
 			
 			// LOOP PRINCIPAL QUE MONTA OS OBJETOS FUNCIONARIO E ADICIONA NO List<Funcionario> funcionarios.

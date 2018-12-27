@@ -19,6 +19,7 @@
 			<h1>Funcionários Atos</h1>
 		</div>
 		<br>
+		<!-- TABELA QUE CONTEM O INPUT DE PESQUISA -->
 		<table align="center">
 			<tbody>
 				<tr id="filter_col5" data-column="5">
@@ -29,8 +30,8 @@
             	</tr>
 			</tbody>
 		</table>
-		<p align="center">*Usar | para multiplas palavras-chave</p>
 		<br>
+		<!-- TABELA QUE SERA POPULADA COM OS DADOS RETORNADOS DA CONTROLLER -->
 		<table id="tableFunc" class="table table-hover">
 			<thead>
 				<tr>
@@ -82,14 +83,14 @@
 		<script>			
 			function filterColumn (i) {
 			    $('#tableFunc').DataTable().column(i).search(
-			        $('#skill'+i+'_filter').val(),
+			        $('#skill'+i+'_filter').val().replace(" ", "|"),
 			        $('#skill'+i+'_regex').prop('checked'),
 			        $('#skill'+i+'_smart').prop('checked')
 			    ).draw();
 			}
 			
 			$(document).ready(function(){
-				$('input.skill_filter').on( 'keyup click', function () {
+				$('input.skill_filter').on('keyup click', function () {
 					filterColumn( $(this).parents('tr').attr('data-column') );
 			    } );
 				
