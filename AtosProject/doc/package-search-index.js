@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"br.com.atosproject.controller"},{"l":"br.com.atosproject.model"}]
+packageSearchIndex = [{"l":"br.com.atosproject.controller"},{"l":"br.com.atosproject.controllertest"},{"l":"br.com.atosproject.dao"},{"l":"br.com.atosproject.model"}]

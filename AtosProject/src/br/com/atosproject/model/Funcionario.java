@@ -18,8 +18,8 @@ public class Funcionario {
 	private String salary;
 	private String manager;
 	private String gcm;
-	private String[] skills;
-	private String[] certification;
+	private List<String> skills;
+	private List<String> certification;
 	private List<Project> projectList = new ArrayList<Project>();
 	
 	
@@ -59,16 +59,16 @@ public class Funcionario {
 	public void setGcm(String gcm) {
 		this.gcm = gcm;
 	}
-	public String[] getSkills() {
+	public List<String> getSkills() {
 		return skills;
 	}
-	public void setSkills(String[] skills) {
+	public void setSkills(List<String> skills) {
 		this.skills = skills;
 	}
-	public String[] getCertification() {
+	public List<String> getCertification() {
 		return certification;
 	}
-	public void setCertification(String[] certification) {
+	public void setCertification(List<String> certification) {
 		this.certification = certification;
 	}
 	public List<Project> getProjectList() {

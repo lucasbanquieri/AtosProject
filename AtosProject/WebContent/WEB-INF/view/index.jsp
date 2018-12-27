@@ -29,6 +29,7 @@
             	</tr>
 			</tbody>
 		</table>
+		<p align="center">*Usar | para multiplas palavras-chave</p>
 		<br>
 		<table id="tableFunc" class="table table-hover">
 			<thead>
@@ -77,6 +78,7 @@
 		</div>
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 		<script>			
 			function filterColumn (i) {
 			    $('#tableFunc').DataTable().column(i).search(

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.atosproject.dao.FuncionarioDAO;
+import br.com.atosproject.dao.FuncionarioDAOInterface;
 import br.com.atosproject.model.Funcionario;
 import br.com.atosproject.model.Project;
 
@@ -32,7 +34,7 @@ public class ControllerFuncionario {
 	 * Metodo responsavel pela pagina principal(index). Faz a leitura de um arquivo JSON contendo dados de funcionarios.
 	 * Monta uma lista de Funcionarios com seus respectivos dados e projetos(Project).
 	 * Retorna uma pagina JSP, passando como Model uma lista de funcionarios.
-	 * Local do arquivo JSON pode ser alterado na linha 51.
+	 * Local do arquivo JSON pode ser alterado na linha 55.
 	 * 
 	 * @param funcionario Objeto do tipo Funcionario,
 	 * @param pro Objeto do tipo Projeto.
@@ -48,8 +50,11 @@ public class ControllerFuncionario {
 		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 		
 		try {
+			// ABRE O ARQUIVO JSON.
+			// LOCAL PODE SER ALTERADO.
 			jObject = (JSONArray) jParser.parse(new FileReader("D:\\employees.json"));
 			
+			// LOOP PRINCIPAL QUE MONTA OS OBJETOS FUNCIONARIO E ADICIONA NO List<Funcionario> funcionarios.
 			for (int i = 0; i < jObject.size(); i++) {
 				JSONObject jFuncionario = (JSONObject) jObject.get(i);
 				
@@ -62,6 +67,7 @@ public class ControllerFuncionario {
 				funcionario.setManager(jFuncionario.get("manager").toString());
 				funcionario.setGcm(jFuncionario.get("gcm").toString());
 				
+				// DENTRO DESTE IF SÃO INSTANCIADOS OS PROJETOS QUE SERÃO POPULADOS E ADICIONADOS AO FUNCIONARIO.
 				if (jFuncionario.get("projects") != null) {
 					JSONArray projectArray = (JSONArray) jFuncionario.get("projects");
 					List<Project> projectList = new ArrayList<Project>();
@@ -81,32 +87,30 @@ public class ControllerFuncionario {
 					funcionario.setProjectList(projectList);
 				}
 				
+				// DENTRO DESTE IF SÃO ADICIONADOS AS SKILLS DO FUNCIONARIO.
 				if (jFuncionario.get("skills") != null) {
 					JSONArray skillArray = (JSONArray) jFuncionario.get("skills");
 					Iterator<String> iterator = skillArray.iterator();
-					String[] skills = new String[skillArray.size()];
+					List<String> skills = new ArrayList<String>();
 					
-					while (iterator.hasNext()) {						
-						for (int k = 0; k < skills.length; k++) {
-							skills[k] = iterator.next();
-						}
+					while (iterator.hasNext()) {
+						skills.add(iterator.next());
 						funcionario.setSkills(skills);
 					}
 				}
 				
+				// DENTRO DESTE IF SÃO ADICIONADOS AS CERTIFICATIONS DO FUNCIONARIO.
 				if (jFuncionario.get("certification") != null) {
 					JSONArray certificationArray = (JSONArray) jFuncionario.get("certification");
 					Iterator<String> iterator = certificationArray.iterator();
+					List<String> certifications = new ArrayList<String>();
 					
 					while (iterator.hasNext()) {
-						String[] certifications = new String[certificationArray.size()];
-						
-						for (int l = 0; l < certifications.length; l++) {
-							certifications[l] = iterator.next();
-						}
+						certifications.add(iterator.next());
 						funcionario.setCertification(certifications);
 					}
 				}
+				// FUNCIONARIO POPULADO ADICIONADO NA LISTA.
 				funcionarios.add(funcionario);
 			}
 			
@@ -123,5 +127,29 @@ public class ControllerFuncionario {
 		model.addAttribute("funcionarios", funcionarios);
 		
 		return "index";
+	}
+	
+	/**
+	 * Metodo responsavel pela pagina principal(index). Busca os dados em um Banco de Dados contendo os dados dos funcionarios.
+	 * Monta uma lista de Funcionarios com seus respectivos dados e projetos(Project).
+	 * Retorna uma pagina JSP, passando como Model uma lista de funcionarios.
+	 * 
+	 * @param model Objeto do tipo Model.
+	 * @return index.jsp
+	 */
+	
+	@RequestMapping("/indexdb")
+	public String indexDb(Model model) {
+		
+		FuncionarioDAOInterface dao = new FuncionarioDAO();
+		
+		try {
+			// CHAMA O METODO NA DAO RESPONSAVEL POR LISTAR OS FUNCIONARIOS E RETORNAR A LISTA NO MODEL.
+			model.addAttribute("funcionarios", dao.listarFuncionarios());
+			return "index";
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "errorPages/dbError";
+		}
 	}
 }
